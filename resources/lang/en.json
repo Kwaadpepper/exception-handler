@@ -1,0 +1,10 @@
+{
+    "error_occured_in_app_check_trace": "An error occured on :appName",
+    "check_trace": "Please check logs in order to fix this.",
+    "uri": "uri",
+    "date": "date",
+    "code": "code",
+    "file": "file",
+    "line": "line",
+    "anonymized_stack_trace": "anonymized stack trace"
+}

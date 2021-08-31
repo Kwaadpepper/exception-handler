@@ -1,0 +1,10 @@
+{
+    "error_occured_in_app": "Une erreur est survenue sur :appName",
+    "check_trace": "Veuillez vérifier les logs pour réparer ceci.",
+    "uri": "uri",
+    "date": "date",
+    "code": "code",
+    "file": "fichier",
+    "line": "ligne",
+    "anonymized_stack_trace": "pile d'appels anonymisée"
+}
