@@ -87,8 +87,6 @@ class ExceptionHandler extends Handler
                 }
             } catch (Exception $e) {
                 Log::critical('Handler could not send Exception email', ['exception' => $e]);
-            } finally {
-                return true;
             }
         };
     }
