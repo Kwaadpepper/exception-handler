@@ -2,6 +2,7 @@
 
 namespace Kwaadpepper\ExceptionHandler\Exceptions;
 
+use Closure;
 use Exception;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Exceptions\Handler;
@@ -21,7 +22,41 @@ class ExceptionHandler extends Handler
     public function __construct(Container $container)
     {
         parent::__construct($container);
-        $this->reportable(function (Throwable $e) {
+        if (\strpos(app()->version(), '8') === 0) {
+            $this->reportable($this->reportExceptionByEmail());
+        }
+    }
+
+    /**
+     * Report or log an exception.
+     *
+     * @param  \Throwable  $exception
+     * @return void
+     *
+     * @throws \Exception
+     */
+    public function report(Throwable $e)
+    {
+        if (get_class($e) == RedirectTo::class) {
+            abort(redirect($e->url));
+        }
+        if (
+            \strpos(app()->version(), '8') !== 0 and
+            !$this->reportExceptionByEmail()($e)
+        ) {
+            return false;
+        }
+        parent::report($e);
+    }
+
+    /**
+     * Report sending mail closure
+     *
+     * @return Closure
+     */
+    private function reportExceptionByEmail(): Closure
+    {
+        return function (Throwable $e) {
             $dest = config('exception-handler.contactsList', config('mail.from.address'));
             try {
                 if ($dest and config('exception-handler.enableMaiLog')) {
@@ -51,12 +86,11 @@ class ExceptionHandler extends Handler
                     });
                 }
             } catch (Exception $e) {
-                dd($e);
                 Log::critical('Handler could not send Exception email', ['exception' => $e]);
             } finally {
                 return true;
             }
-        });
+        };
     }
 
     /**
