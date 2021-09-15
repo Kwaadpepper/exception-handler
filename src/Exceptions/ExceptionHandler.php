@@ -109,7 +109,7 @@ class ExceptionHandler extends Handler
      * @param \Exception $e
      * @return string
      */
-    private function getAnonymizedStackTrace(\Exception $e): string
+    private function getAnonymizedStackTrace(Throwable $e): string
     {
         $projectPath = \realpath(\sprintf('%s/../', \app_path()));
         $traceStack = $e->getTrace();
