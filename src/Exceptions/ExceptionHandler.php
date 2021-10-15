@@ -120,8 +120,8 @@ class ExceptionHandler extends Handler
             $traceStr .= \sprintf(
                 '#%s %s(%d): ',
                 $stackStage,
-                str_replace($projectPath, '', $stack['file']),
-                $stack['line']
+                str_replace($projectPath, '', $stack['file'] ?? ''),
+                $stack['line'] ?? ''
             );
             $traceStr .= "{$stack['class']}->{$stack['function']}(";
             $traceArgs = '';
