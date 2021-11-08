@@ -123,33 +123,52 @@ class ExceptionHandler extends Handler
                 str_replace($projectPath, '', $stack['file'] ?? ''),
                 $stack['line'] ?? ''
             );
-            $traceStr .= "{$stack['class']}->{$stack['function']}(";
-            $traceArgs = '';
-            if (isset($stack['args'])) {
-                $argsCount = count($stack['args']);
-                for ($i = 0; $i < $argsCount; $i++) {
-                    $type = \gettype($stack['args'][$i]);
-                    switch ($type) {
-                        case 'object':
-                            $traceArgs .= sprintf('Object(%s)', \get_class($stack['args'][$i]));
-                            break;
-                        case 'array':
-                            $traceArgs .= sprintf('Array(%d)', \count($stack['args'][$i]));
-                            break;
-                        case 'string':
-                            $traceArgs .= sprintf('String(%d)', \strlen($stack['args'][$i]));
-                            break;
-                        default:
-                            $traceArgs .= \gettype($stack['args'][$i]);
-                    }
-                    $traceArgs .= ($i !== ($argsCount - 1) ? ',' : '');
+            if (isset($stack['class'])) {
+                $traceStr .= "{$stack['class']}->{$stack['function']}(";
+                if (isset($stack['args'])) {
+                    $traceStr .= $this->handleArgs($stack);
                 }
-                $traceStr .= $traceArgs;
+                $traceStr .= ")\n";
+            } elseif (isset($stack['function'])) {
+                $traceStr .= "{$stack['function']}(";
+                if (isset($stack['args'])) {
+                    $traceStr .= $this->handleArgs($stack);
+                }
+                $traceStr .= ")\n";
             }
-            $traceStr .= ")\n";
         }
         $maxStackStage++;
         $traceStr .= "#$maxStackStage {main}";
         return $traceStr;
+    }
+
+    /**
+     * Handle Args
+     *
+     * @param array $stack
+     * @return string
+     */
+    private function handleArgs(array $stack): string
+    {
+        $traceArgs = '';
+        $argsCount = count($stack['args']);
+        for ($i = 0; $i < $argsCount; $i++) {
+            $type = \gettype($stack['args'][$i]);
+            switch ($type) {
+                case 'object':
+                    $traceArgs .= sprintf('Object(%s)', \get_class($stack['args'][$i]));
+                    break;
+                case 'array':
+                    $traceArgs .= sprintf('Array(%d)', \count($stack['args'][$i]));
+                    break;
+                case 'string':
+                    $traceArgs .= sprintf('String(%d)', \strlen($stack['args'][$i]));
+                    break;
+                default:
+                    $traceArgs .= \gettype($stack['args'][$i]);
+            }
+            $traceArgs .= ($i !== ($argsCount - 1) ? ',' : '');
+        }
+        return $traceArgs;
     }
 }
