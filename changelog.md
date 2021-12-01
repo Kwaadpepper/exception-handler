@@ -2,6 +2,9 @@
 
 All notable changes to `ExceptionHandler` will be documented in this file.
 
+# version 0.0.6
+- Added class name to email message
+
 # version 0.0.5
 - Fixed Handle cases where exception came from a function instead of a class
 # version 0.0.4

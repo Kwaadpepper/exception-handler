@@ -70,6 +70,7 @@ class ExceptionHandler extends Handler
                         'appName' => config('app.name'),
                         'code' => $e->getCode(),
                         'line' => $e->getLine(),
+                        'ename' => \get_class($e),
                         'emessage' => $this->getAnonymizedMessage($e->getMessage()),
                         'file' => str_replace(\realpath(\sprintf('%s/../', \app_path())), '', $e->getFile()),
                         'stackTrace' => $this->getAnonymizedStackTrace($e),

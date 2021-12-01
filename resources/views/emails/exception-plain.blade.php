@@ -5,6 +5,7 @@
 ]) }}
 {{ __('check_trace') }}
 
+{{ $ename }}
 {{ $emessage }}
 {{ __('uri') }} : {{ $uri }}
 {{ __('date') }} : {{ date('Y-m-d H:i:s') }}
