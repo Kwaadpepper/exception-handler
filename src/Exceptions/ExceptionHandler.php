@@ -2,13 +2,10 @@
 
 namespace Kwaadpepper\ExceptionHandler\Exceptions;
 
-use Closure;
-use Exception;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Throwable;
 
 class ExceptionHandler extends Handler
 {
@@ -22,7 +19,10 @@ class ExceptionHandler extends Handler
     public function __construct(Container $container)
     {
         parent::__construct($container);
-        if (\strpos(app()->version(), '8') === 0) {
+        if (
+            \strpos(app()->version(), '8') === 0 or
+            \strpos(app()->version(), '9') === 0
+        ) {
             $this->reportable($this->reportExceptionByEmail());
         }
     }
@@ -35,7 +35,7 @@ class ExceptionHandler extends Handler
      *
      * @throws \Exception
      */
-    public function report(Throwable $e)
+    public function report(\Throwable $e)
     {
         if (get_class($e) == RedirectTo::class) {
             abort(redirect($e->url));
@@ -52,11 +52,11 @@ class ExceptionHandler extends Handler
     /**
      * Report sending mail closure
      *
-     * @return Closure
+     * @return \Closure
      */
-    private function reportExceptionByEmail(): Closure
+    private function reportExceptionByEmail(): \Closure
     {
-        return function (Throwable $e) {
+        return function (\Throwable $e) {
             $dest = config('exception-handler.contactsList', config('mail.from.address'));
             try {
                 if ($dest and config('exception-handler.enableMaiLog')) {
@@ -79,14 +79,24 @@ class ExceptionHandler extends Handler
                                 (request() and request()->fullUrl()) ?
                                 request()->fullUrl() : 'none')
                     ], function ($m) use ($dest) {
-                        /** @var \Illuminate\Mail\Message $m */
-                        $m->to(
-                            $dest,
-                            sprintf('%s Exception Handler', config('app.name'))
-                        )->subject('Need help !, an error occured in your application, please check Logs ASAP');
+                        // ? Is laravel 9 (https://laravel.com/docs/master/upgrade#symfony-mailer)
+                        if(\strpos(app()->version(), '9') !== 0) {
+                            /** @var \Illuminate\Mail\Message $m */
+                            $m->setTo(
+                                $dest,
+                                sprintf('%s Exception Handler', config('app.name'))
+                            )->setSubject('Need help !, an error occured in your application, please check Logs ASAP');
+                        } else {
+                            /** @var \Illuminate\Mail\Message $m */
+                            $m->to(
+                                $dest,
+                                sprintf('%s Exception Handler', config('app.name'))
+                            )->subject('Need help !, an error occured in your application, please check Logs ASAP');
+                        }
                     });
                 }
-            } catch (Exception $e) {
+            } catch (\ErrorException $e) {
+                dd($e);
                 Log::critical('Handler could not send Exception email', ['exception' => $e]);
             }
         };
@@ -110,7 +120,7 @@ class ExceptionHandler extends Handler
      * @param \Exception $e
      * @return string
      */
-    private function getAnonymizedStackTrace(Throwable $e): string
+    private function getAnonymizedStackTrace(\Throwable $e): string
     {
         $projectPath = \realpath(\sprintf('%s/../', \app_path()));
         $traceStack = $e->getTrace();
