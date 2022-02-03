@@ -2,6 +2,9 @@
 
 All notable changes to `ExceptionHandler` will be documented in this file.
 
+# version 0.0.8
+- Make sure sending mail error is always correctly handled (write in logs)
+
 # version 0.0.7
 - Added support for laravel 9
 
