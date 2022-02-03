@@ -40,8 +40,9 @@ class ExceptionHandler extends Handler
         if (get_class($e) == RedirectTo::class) {
             abort(redirect($e->url));
         }
+        // ? If in laravel 7 and and error occurs when sending mail.
         if (
-            \strpos(app()->version(), '8') !== 0 and
+            \strpos(app()->version(), '7') === 0 and
             !$this->reportExceptionByEmail()($e)
         ) {
             return false;
@@ -95,8 +96,7 @@ class ExceptionHandler extends Handler
                         }
                     });
                 }
-            } catch (\ErrorException $e) {
-                dd($e);
+            } catch (\Error $e) {
                 Log::critical('Handler could not send Exception email', ['exception' => $e]);
             }
         };
