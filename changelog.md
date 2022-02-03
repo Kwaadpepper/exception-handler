@@ -2,6 +2,9 @@
 
 All notable changes to `ExceptionHandler` will be documented in this file.
 
+# version 0.0.7
+- Added support for laravel 9
+
 # version 0.0.6
 - Added class name to email message
 
