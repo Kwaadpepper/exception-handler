@@ -2,6 +2,10 @@
 
 All notable changes to `ExceptionHandler` will be documented in this file.
 
+
+# version 0.0.9
+- Multiline exception message in mail.
+
 # version 0.0.8
 - Make sure sending mail error is always correctly handled (write in logs)
 

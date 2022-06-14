@@ -12,7 +12,7 @@
     <p>{{ __('check_trace') }}</p>
 
     <h2>{{ $ename }}</h2>
-    <h3>{{ $emessage }}</h3>
+    <h3>{!! nl2br(strip_tags(e($emessage))) !!}</h3>
     <p>{{ __('uri') }} : {{ $uri }}</p>
     <p>{{ __('date') }} : {{ date('Y-m-d H:i:s') }}</p>
     <p>{{ __('code') }} : {{ $code }}</p>
