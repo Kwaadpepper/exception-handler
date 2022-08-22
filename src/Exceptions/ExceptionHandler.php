@@ -51,6 +51,28 @@ class ExceptionHandler extends Handler
     }
 
     /**
+     * Manually send exception by email
+     *
+     * @param \Throwable $e
+     * @return void
+     */
+    public static function sendExceptionByEmailStatic(\Throwable $e)
+    {
+        app(self::class)->sendExceptionByEmail($e);
+    }
+
+    /**
+     * Manually send exception by email
+     *
+     * @param \Throwable $e
+     * @return void
+     */
+    public function sendExceptionByEmail(\Throwable $e)
+    {
+        $this->reportExceptionByEmail()($e);
+    }
+
+    /**
      * Report sending mail closure
      *
      * @return \Closure

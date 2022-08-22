@@ -2,6 +2,8 @@
 
 All notable changes to `ExceptionHandler` will be documented in this file.
 
+# version 0.1.0
+- Add a a method to manually send exception by email (plus the same to call statically).
 
 # version 0.0.9
 - Multiline exception message in mail.
