@@ -2,8 +2,6 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Total Downloads][ico-downloads]][link-downloads]
-[![Build Status][ico-travis]][link-travis]
-[![StyleCI][ico-styleci]][link-styleci]
 
 Handles exceptions and send email when it does happen
 It does send you a mail with anonymized debug data
@@ -18,23 +16,23 @@ $ composer require kwaadpepper/exception-handler
 
 ## Usage
 
-1 - php artisan handler:install
-2 - Change configuration in config/exception-handler.php
-3 - put at least your team email in the above file in `contactsList` array
+  - `php artisan handler:install`
+  - `php artisan vendor:publish --provider "Kwaadpepper\\ExceptionHandler\\ExceptionHandlerServiceProvider" --tag config`
+  - Change configuration in `config/exception-handler.php`
+  - put at least your team email in the above file in `contactsList` array
 
-You can uninstall it by using php artisan handler:remove or juste revert changes in Exception/Handler.php
+You can uninstall it by using `php artisan handler:remove` or just revert changes in Exception/Handler.php
 ## Change log
 
 Please see the [changelog](changelog.md) for more information on what has changed recently.
 
 ## Security
 
-If you discover any security related issues, please email github@jeremydev.ovh instead of using the issue tracker.
+If you discover any security related issues, please email `github@jeremydev.ovh` instead of using the issue tracker.
 
 ## Credits
 
 - [Jérémy Munsch][link-author]
-- [All Contributors][link-contributors]
 
 ## License
 
