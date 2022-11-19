@@ -30,7 +30,7 @@ class ExceptionHandlerServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            sprintf('%s/../config/exception-handler.php', __DIR__),
+            __DIR__ . '/../config/exception-handler.php',
             'exception-handler'
         );
         $this->commands($this->commands);
