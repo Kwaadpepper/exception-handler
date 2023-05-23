@@ -11,5 +11,5 @@ return [
      * Put a developper secured mailbox in here
      * so you can receive email if things go mad
      */
-    'contactsList' => []
+    'contactsList' => collect(explode(',', env('EXCEPTION_MAIL_LIST')))->all(),
 ];

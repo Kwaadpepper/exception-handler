@@ -6,7 +6,6 @@ use Illuminate\Support\ServiceProvider;
 
 class ExceptionHandlerServiceProvider extends ServiceProvider
 {
-
     protected $commands = [
         'Kwaadpepper\ExceptionHandler\Console\Commands\InstallHandler',
         'Kwaadpepper\ExceptionHandler\Console\Commands\RemoveHandler'

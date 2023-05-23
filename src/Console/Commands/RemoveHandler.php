@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\File;
 
 class RemoveHandler extends Command
 {
-
     /**
      * The name and signature of the console command.
      *
@@ -35,8 +34,8 @@ class RemoveHandler extends Command
             exit;
         }
         $handlerFile = File::get($handlerPath);
-        $find = 'use Kwaadpepper\ExceptionHandler\Exceptions\ExceptionHandler;';
-        $replace = 'use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;';
+        $find        = 'use Kwaadpepper\ExceptionHandler\Exceptions\ExceptionHandler;';
+        $replace     = 'use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;';
         if (\strpos($handlerFile, $replace) !== false) {
             $this->error('Exception handler seems to already be removed');
             exit;
@@ -48,7 +47,7 @@ class RemoveHandler extends Command
         $handlerFile = \str_replace($find, $replace, $handlerFile);
         File::put($handlerPath, $handlerFile);
 
-        $source = \config_path('exception-handler.php');
+        $source      = \config_path('exception-handler.php');
         $sourceExist = File::exists($source);
         if (
             $sourceExist and

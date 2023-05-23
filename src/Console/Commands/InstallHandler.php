@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\File;
 
 class InstallHandler extends Command
 {
-
     /**
      * The name and signature of the console command.
      *
@@ -35,8 +34,8 @@ class InstallHandler extends Command
             exit;
         }
         $handlerFile = File::get($handlerPath);
-        $find = 'use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;';
-        $replace = 'use Kwaadpepper\ExceptionHandler\Exceptions\ExceptionHandler;';
+        $find        = 'use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;';
+        $replace     = 'use Kwaadpepper\ExceptionHandler\Exceptions\ExceptionHandler;';
         if (\strpos($handlerFile, $replace) !== false) {
             $this->error('Exception handler seems to already be installed');
             exit;
@@ -49,8 +48,8 @@ class InstallHandler extends Command
         File::put($handlerPath, $handlerFile);
         $this->info("Replaced $handlerPath");
 
-        $source = __DIR__ . '/../../../config/exception-handler.php';
-        $dest = \config_path('exception-handler.php');
+        $source    = __DIR__ . '/../../../config/exception-handler.php';
+        $dest      = \config_path('exception-handler.php');
         $destExist = File::exists($dest);
         if (
             !$destExist or
